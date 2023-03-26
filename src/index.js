@@ -7,6 +7,8 @@ import { Notify } from 'notiflix';
 
 // console.log(manyMarkup({ flags: 'first', name: 'name' }));
 
+const num = new Intl.NumberFormat('uk-UK');
+
 const apiCountry = new APIservices();
 const DEBOUNCE_DELAY = 300;
 const refs = {
@@ -55,7 +57,9 @@ function oneCountryMarkup({ flags, name, capital, languages, population }) {
      <p class="country-name">${name.official}</p>
     </div> 
     <p class="country-name"><span class="nameItem">Capital: </span>${capital}</p>
-    <p class="country-name"><span class="nameItem">Population: </span>${population}</p>
+    <p class="country-name"><span class="nameItem">Population: </span>${num.format(
+      population
+    )}</p>
     <p class="country-name"><span class="nameItem">Languages: </span>${languages}</p>
 `;
   return markUp;
