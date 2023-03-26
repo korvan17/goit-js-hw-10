@@ -2,8 +2,8 @@ import './css/styles.css';
 import APIservices from './js/serviceAPI';
 import debounce from 'lodash.debounce';
 import { Notify } from 'notiflix';
-import manyMarkup from './templates/manyCountry.hbs';
-import oneMarkup from './templates/oneCcountry.hbs';
+// import manyMarkup from './templates/manyCountry.hbs';
+// import oneMarkup from './templates/oneCcountry.hbs';
 
 // console.log(manyMarkup({ flags: 'first', name: 'name' }));
 
@@ -18,7 +18,6 @@ refs.input.addEventListener('input', debounce(onInput, DEBOUNCE_DELAY));
 
 function onInput(e) {
   //   refs.text.innerHTML = '';
-  console.log(e.target.value);
   apiCountry.responce = e.target.value.trim();
   if (apiCountry.responce) {
     apiCountry.fetchFromServer().then(markUp);
@@ -35,23 +34,39 @@ function markUp(data) {
     );
   } else if (data.length === 1) {
     refs.text.innerHTML = '';
-    refs.text.insertAdjacentHTML(
-      'beforeend',
-      oneMarkup(oneCountryMarkup(data[0]))
-    );
+    refs.text.insertAdjacentHTML('beforeend', oneCountryMarkup(data[0]));
   } else {
     refs.text.innerHTML = '';
-    refs.text.insertAdjacentHTML('beforeend', manyMarkup(data));
+    refs.text.insertAdjacentHTML('beforeend', manyCountryMarkup(data));
   }
 }
 
 function oneCountryMarkup({ flags, name, capital, languages, population }) {
-  const data = {
-    flags,
-    name,
-    population,
-    capital,
-  };
-  data.languages = Object.values(languages).join(', ');
-  return data;
+  // const data = {
+  //   flags,
+  //   name,
+  //   population,
+  //   capital,
+  // };
+  // data.languages = Object.values(languages).join(', ');
+  // return data;
+  const markUp = `<div class="item bigName" >
+     <img class="icon-flag bigFlag" src="${flags.svg}" alt="flag">
+     <p class="country-name">${name.official}</p>
+    </div> 
+    <p class="country-name"><span class="nameItem">Capital: </span>${capital}</p>
+    <p class="country-name"><span class="nameItem">Population: </span>${population}</p>
+    <p class="country-name"><span class="nameItem">Languages: </span>${languages}</p>
+`;
+  return markUp;
+}
+
+function manyCountryMarkup(data) {
+  const markUp = data.map(({ flags, name }) => {
+    return `<li class="item">
+    <img class="icon-flag" src="${flags.svg}" alt="flag">
+    <p class="country-name">${name.official}</p>
+</li>`;
+  });
+  return markUp.join('');
 }
