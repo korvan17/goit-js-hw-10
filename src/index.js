@@ -52,6 +52,7 @@ function oneCountryMarkup({ flags, name, capital, languages, population }) {
   // };
   // data.languages = Object.values(languages).join(', ');
   // return data;
+  console.log(languages);
   const markUp = `<div class="item bigName" >
      <img class="icon-flag bigFlag" src="${flags.svg}" alt="flag">
      <p class="country-name">${name.official}</p>
@@ -60,7 +61,9 @@ function oneCountryMarkup({ flags, name, capital, languages, population }) {
     <p class="country-name"><span class="nameItem">Population: </span>${num.format(
       population
     )}</p>
-    <p class="country-name"><span class="nameItem">Languages: </span>${languages}</p>
+    <p class="country-name"><span class="nameItem">Languages: </span>${Object.values(
+      languages
+    ).join(', ')}</p>
 `;
   return markUp;
 }
